@@ -1,0 +1,7 @@
+# Exercice1.1
+# création des vecteur avec rep. créons le vecteur source sur lequel nous appliquerons la fonction rep 
+#pour obtenir les résultats atendus il s'agit du vecteur contenant les chiffres 1 à 5
+x <- c(1,2,3,4,5)
+vect1 <- rep(x,times = 3) # pour avoir vect1 il faut répéter x 3 fois
+vect2 <- rep(x,each = 3) # pour avoir vect2 il faut répéter chacun des éléments de x trois fois
+vect3 <- rep(1:4, c(2,3,4,5)) # pour vect3 il faut repéter chacun des éléments i de (1,2,3,4)i+1 fois
