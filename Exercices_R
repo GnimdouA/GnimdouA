@@ -23,3 +23,27 @@ set.seed(007)
 vec1 <- runif(100,0,7)
 moyenne <- mean(vec1)
 variance <- var(vec1)
+
+# 2.création de vec2, des valeurs mamquantes et recherche de leurs indices
+vec2 <- vec1
+set.seed(008)
+vec2 <- replace(vec2,sample(1:100, size=10),NA)
+indice_na = which(is.na(vec2)== TRUE)
+
+# 3.calcul de la moyenne et de la variance de vec2 :
+# sans prendre en compte les na
+m_avec_na <- mean(vec2)
+v_avec_na <- var(vec2)
+# en prenant en compte les na
+m_sans_na <- mean(vec2, na.rm = TRUE)
+v_sans_na <- var(vec2, na.rm = TRUE)
+
+# 4.création de vec3 et calcul de la moyenne et de la variance
+vec3 <- vec2[!is.na(vec2)] # vec3 = ensemble des éléments de vec2 qui sont différents de na
+moy <- mean(vec3)
+vari <- var(vec3)
+
+# 5.création de vec4 et calcul de la moyenne et de la variance
+vec4 <- replace(vec2, indice_na, moy)
+moy_4 <- mean(vec4)
+vari_4 <- var(vec4)
