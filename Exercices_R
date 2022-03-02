@@ -47,3 +47,19 @@ vari <- var(vec3)
 vec4 <- replace(vec2, indice_na, moy)
 moy_4 <- mean(vec4)
 vari_4 <- var(vec4)
+
+# 6. création de vec5 et calcul de la moyenne et de la variance
+vec5 <- replace(vec2,indice_na, rnorm(10,mean(vec3),sqrt(var(vec3))))
+moy_5 <- mean(vec5)
+vari_5 <- var(vec5)
+moy_5
+vari_5
+
+# 7.création de vec6 et calcul de la moyenne et de la variance
+vec6 <- replace(vec2,indice_na, runif(10,min(vec3),max(vec3)))
+moy_6 <- mean(vec6)
+vari_6 <- var(vec6)
+
+# 8.création de vec7
+vec7 <- replace(vec2,indice_na, sample(vec2[!is.na(vec2)], size=10, replace = TRUE))
+
