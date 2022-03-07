@@ -1,0 +1,55 @@
+# installation du package foreign pour pouvoir importer des bases de données d'autres logiciels
+library(foreign)
+install.packages("haven", dependencies = TRUE)
+install.packages("dplyr", dependencies = TRUE)
+library(dplyr)
+library(haven)
+library(readxl)
+# recupérons le chenin d'accès au ficher
+m_source <- "C:/Users/HP ProBook/Documents/Mes Cours ISEP2/R/fichers de cours/Base_etudiant"
+
+# importons les bases
+cereale <- read_dta(file = paste(m_source,"cereales.dta", sep = "/"))
+Ehcvm21 <- read_dta(file = paste(m_source,"Ehcvm21.dta", sep = "/"))
+ehcvm21_conso_red_csv <- read.csv(file = paste(m_source,"ehcvm21_conso_red.csv", sep = "/"), header = TRUE, sep = ";")
+legumes <- read_dta(file = paste(m_source,"legumes.dta", sep = "/"))
+tab_conv <- read_dta(file = paste(m_source,"table_conversion.dta", sep = "/"))
+tab_conv_xl <- read_xlsx(paste(m_source,"table_conversion_2021.xlsx", sep = "/"))
+
+# nous allons à présent travailler sur la base cereale
+# convertissons cette base en dataframe pour mieux l'exploiter
+cereale_df <- data.frame(cereale)
+
+#renomons les variables c'est à dire les nom des colones
+colnames(cereale_df) <- c("interview_key","interview_id","cereales_id","autre_cereales", "quanite_cons", 
+                          "unites_cons","taille_cons","provenance_auto","provenance_other",
+                          "freq_achat","quatite_achat", 
+                          "unite_achat","taille_achat","value_lastachat")
+colnames(cereale_df)
+
+# convertissons les unités non standards
+#Nous allons utiliser la base table_conversion pour cela convertissons cette dernière en dataframe
+table_conv <- data.frame(tab_conv_xl)
+
+# nous allons receillir les différentes valeurs c'est à dire sans doublons des variables "produitID"  "produitNom"
+product <- distinct(subset(table_conv, select = c("produitID","produitNom")))
+
+# créons une nouvelle variable dans notre base de cereales à partir de la liste précédente (roduct)
+cereale_df$produit <-factor(cereale_df$cereales_id,
+                           levels = product$produitID, 
+                           labels = product$produitNom) 
+
+# on fait de meùe pour les unités et les tailles
+unitee <- distinct(subset(table_conv, select = c("uniteID", "uniteNom")))
+taille <- distinct(subset(table_conv, select = c("tailleID", "tailleNom")))
+cereale_df$unites <- factor(cereale_df$unites_cons, 
+                           levels = unitee$uniteID, 
+                           labels = unitee$uniteNom)
+cereale_df$tailles <- factor(cereale_df$taille_cons,
+                            levels = taille$tailleID,
+                            labels = taille$tailleNom)
+#on doit fusionner la table de conversion avec la base cereale
+colnames(cereale_df)[3] <- "produitID" # renommer la variable 'produit_id' de la base céréale
+# pour avoir un meme nom de variable que dans la table de conversion
+cereale_conv <- merge(cereale_df, table_conv, by="produitID")
+
