@@ -1,0 +1,105 @@
+# 1. Création de fonctions
+# fonction qui calcule la moyenne: cette fonction prend en argument un vecteur 
+#numérique et renvoie la moyenne de ces éléments
+
+moyenne <- function(x) {
+  som = 0
+  for (i in 1:length(x)) {
+    som = som + x[i] }
+  moy <-  som/length(x)
+  moy
+}
+moyenne(c(10,10))
+
+# fonction qui calcule la variance: cette fonction prend en argument un vecteur 
+#numérique et renvoie la variance de ces éléments
+
+variance <- function(x){
+  som = 0
+  moy = moyenne(x)
+  for (i in 1:length(x)) {
+    som = som + (x[i] - moy)**2  }
+  vari <-  som/length(x)
+  vari 
+}
+variance(c(10,10))
+
+# fonction qui calcule l'écart-type: cette fonction prend en argument un vecteur 
+#numérique et renvoie l'écart-type de ces éléments
+ecart.type <- function(x) {
+  ecart_t <- sqrt(variance(x))
+  ecart_t
+}
+ecart.type(c(10,10))
+
+# fonction qui calcule la médiane: cette fonction prend en argument un vecteur 
+# et renvoie la médiane de ces éléments
+mediane <- function(x){
+if(length(x)%%2 == 0){
+  med <- x[length(x)/2]
+  med
+}
+  else{
+    med <- x[(length(x)+1)/2]
+  }
+}
+
+# fonction qui calcule la covariance: cette fonction prend en argument 2 vecteurs 
+#numériques de même longueur et renvoie la covariance de ces 2 séries
+covar <- function(x,y){
+ moy_x = moyenne(x)
+ moy_y = moyenne(y)
+ som = 0
+ for(i in 1:length(x)){
+   som = som + (x[i] - moy_x)*(y[i] - moy_y)
+ }
+ covar_ <- som/length(x)
+ covar_
+}
+covar(c(10,10),c(12,11))
+
+
+# 2. Résolution de l'aquation du second dégré  ax^2 + bx + c = 0 avec une fonction
+# la fonction prendra en arguments le vecteur numerique c = c(a,b,c)
+equation.2deg <- function(c){
+  a = c[1]
+  b = c[2]
+  c = c[3]
+  delta = b**2 - 4*a*c
+  if (delta<0){
+    r_delta = sqrt(-delta)
+    z_1 = (- b - r_delta*1i)/(2*a)
+    z_2 = (- b + r_delta*1i)/(2*a)
+    solution <- c(z_1,z_2)
+    solution
+  }
+  else if (delta == 0) {
+    r = -b/(2*a)
+    solution <- c(r)
+    solution
+  }
+  else {
+    r_delta = sqrt(delta)
+    x_1 = (-b - r_delta)/(2*a)
+    x_2 = (-b + r_delta)/(2*a)
+    solution <- c(x_1,x_2)
+    solution
+  }
+}
+
+
+# 3.fonction calculant le factoriel d'un nombre : cette fonction prend 
+#en argument un entier et revoie le factoriel de ce nombre
+factoriel <- function(n){
+  if( n < 0){
+    print("le factoriel d'un nombre négatif n'existe pas") }
+  else if(n == 0 ){
+  facto <- 1
+  facto }
+  else {
+    fact = 1
+    for (i in 1:n ){
+      fact = fact*i }
+    facto <- fact
+    facto }
+}
